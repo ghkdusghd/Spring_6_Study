@@ -10,9 +10,9 @@ public interface ProductsService {
 
     Products findById(Long id);
 
-    boolean save(Products products);
+    void save(Products products);
 
-    boolean update(Products products);
+    void update(Products products);
 
     void delete(Long id);
 

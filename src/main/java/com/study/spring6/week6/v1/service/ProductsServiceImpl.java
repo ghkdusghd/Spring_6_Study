@@ -2,6 +2,9 @@ package com.study.spring6.week6.v1.service;
 
 import com.study.spring6.week6.entity.Products;
 import com.study.spring6.week6.v1.repository.ProductsRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,33 +21,30 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     public List<Products> findAll() {
-        return productsRepository.findAll();
+        List<Products> products = productsRepository.findAll();
+        return products;
     }
 
     @Override
+    @Cacheable(value = "products", key = "#id")
     public Products findById(Long id) {
         return productsRepository.findById(id).orElse(null);
     }
 
     @Override
-    public boolean save(Products products) {
-        Products result = productsRepository.save(products);
-        if (result == null) {
-            return false;
-        }
-        return true;
+    @CacheEvict(value = "products", key = "#products.id")
+    public void save(Products products) {
+        productsRepository.save(products);
     }
 
     @Override
-    public boolean update(Products products) {
-        Products result = productsRepository.save(products);
-        if (result == null) {
-            return false;
-        }
-        return true;
+    @CacheEvict(value = "products", key = "#products.id")
+    public void update(Products products) {
+        productsRepository.save(products);
     }
 
     @Override
+    @CacheEvict(value = "products", key = "#id")
     public void delete(Long id) {
         productsRepository.deleteById(id);
     }
