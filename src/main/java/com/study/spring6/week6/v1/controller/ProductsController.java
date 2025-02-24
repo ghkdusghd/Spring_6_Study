@@ -25,8 +25,10 @@ public class ProductsController {
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Products> getProductById(@PathVariable Long id) {
-        Products product = productsService.findById(id);
-        if (product == null) {
+        Products product;
+        try {
+            product = productsService.findById(id);
+        } catch (RuntimeException e) {
             return ResponseEntity.status(404).build();
         }
         return ResponseEntity.status(200).body(product);
