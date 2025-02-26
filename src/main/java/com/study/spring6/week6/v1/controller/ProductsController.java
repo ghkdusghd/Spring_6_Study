@@ -20,7 +20,7 @@ public class ProductsController {
     @GetMapping("/products")
     public ResponseEntity<List<Products>> getAllProducts() {
         List<Products> products = productsService.findAll();
-        return ResponseEntity.ok().body(products);
+        return ResponseEntity.status(200).body(products);
     }
 
     @GetMapping("/products/{id}")
@@ -56,7 +56,7 @@ public class ProductsController {
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(200).build();
     }
 
     @DeleteMapping("/products/{id}")
