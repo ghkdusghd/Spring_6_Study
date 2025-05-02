@@ -1,0 +1,31 @@
+= REST Docs 문서
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== 상품 생성 API
+
+=== request sample
+include::{snippets}/product-post/http-request.adoc[]
+=== request field
+include::{snippets}/product-post/request-fields.adoc[]
+=== response sample
+include::{snippets}/product-post/http-response.adoc[]
+=== response field
+include::{snippets}/product-post/response-fields.adoc[]
+
+
+== 상품 조회 API
+
+=== request sample
+include::{snippets}/product-get/http-request.adoc[]
+=== request parameters
+include::{snippets}/product-get/path-parameters.adoc[]
+=== response sample
+include::{snippets}/product-get/http-response.adoc[]
+=== response field
+include::{snippets}/product-get/response-fields.adoc[]

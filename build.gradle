@@ -1,0 +1,87 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2' // Spring REST Docs
+}
+
+group = 'com.study'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Spring REST Docs
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    //swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// 스니펫들이 저장될 snipperDir 변수 설정.
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+// 빌드 jar 내 문서 경로 설정
+bootJar {
+    dependsOn asciidoctor
+    copy {
+        from "${asciidoctor.outputDir}"
+        into 'BOOT-INF/classes/static/docs'
+    }
+}
+
+// test 시에만 asciidoctor 가 실행된다.
+asciidoctor {
+    dependsOn test
+    inputs.dir snippetsDir
+}
+
+// asciidoctor 가 실행되기 전에 이전에 만든 파일을 삭제한다.
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+
+// 만들어진 docs 를 정적 리소스로 복사한다.
+tasks.register('copyDocument', Copy) {
+    dependsOn asciidoctor
+
+    from file("build/docs/asciidoc/")
+    into file("src/main/resources/static/docs")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+build {
+    dependsOn copyDocument
+}
+
