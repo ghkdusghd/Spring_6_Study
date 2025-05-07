@@ -60,10 +60,14 @@ public class RestDocsTest {
                                 fieldWithPath("stock").description("상품 재고")
                         ),
                         responseFields( // 응답으로 들어오는 필드를 전부 적는다.
-                                fieldWithPath("category").description("상품 카테고리"),
-                                fieldWithPath("productName").description("상품명"),
-                                fieldWithPath("price").description("상품 가격"),
-                                fieldWithPath("stock").description("상품 재고")
+                                fieldWithPath("data").description("조회한 상품 정보"),
+                                fieldWithPath("data.category").description("상품 카테고리"),
+                                fieldWithPath("data.productName").description("상품 이름"),
+                                fieldWithPath("data.price").description("상품 가격"),
+                                fieldWithPath("data.stock").description("재고 수량"),
+                                fieldWithPath("status").description("응답 상태 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("dateTime").description("응답 시간")
                         )
                 ));
     }
@@ -89,10 +93,14 @@ public class RestDocsTest {
                                 parameterWithName("id").description("조회할 상품의 id")
                         ),
                         responseFields( // 응답으로 받는 내용을 전부 적는다.
-                                fieldWithPath("category").description("상품 카테고리"),
-                                fieldWithPath("productName").description("상품명"),
-                                fieldWithPath("price").description("상품 가격"),
-                                fieldWithPath("stock").description("상품 재고")
+                                fieldWithPath("data").description("조회한 상품 정보"),
+                                fieldWithPath("data.category").description("상품 카테고리"),
+                                fieldWithPath("data.productName").description("상품 이름"),
+                                fieldWithPath("data.price").description("상품 가격"),
+                                fieldWithPath("data.stock").description("재고 수량"),
+                                fieldWithPath("status").description("응답 상태 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("dateTime").description("응답 시간")
                         )
                         ));
     }

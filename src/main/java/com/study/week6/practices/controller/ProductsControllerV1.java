@@ -1,12 +1,12 @@
 package com.study.week6.practices.controller;
 
+import com.study.week6.practices.dto.ApiResponse;
 import com.study.week6.practices.dto.ProductDTO;
 import com.study.week6.practices.service.ProductsService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1")
 public class ProductsControllerV1 {
 
@@ -15,37 +15,31 @@ public class ProductsControllerV1 {
         this.productsService = productsService;
     }
 
-    @ResponseBody
     @GetMapping("/products")
     public ResponseEntity<?> getAllProducts() {
-        return ResponseEntity.status(200).body(productsService.findAll());
+        return ApiResponse.OK(productsService.findAll());
     }
 
-    @ResponseBody
     @GetMapping("/products/{id}")
     public ResponseEntity<?> getProductById(@PathVariable Long id) {
-        return ResponseEntity.status(200).body(productsService.findById(id));
+        return ApiResponse.OK(productsService.findById(id));
     }
 
-    @ResponseBody
     @PostMapping("/products")
     public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
-        productsService.save(productDTO);
-        return ResponseEntity.status(201).body(productDTO);
+        return ApiResponse.CREATED(productsService.save(productDTO));
     }
 
-    @ResponseBody
     @PutMapping("/products/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         productsService.update(id, productDTO);
-        return ResponseEntity.status(200).build();
+        return ApiResponse.NO_CONTENT();
     }
 
-    @ResponseBody
     @DeleteMapping("/products/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         productsService.delete(id);
-        return ResponseEntity.status(200).build();
+        return ApiResponse.NO_CONTENT();
     }
 
 //    // GlobalExceptionHandler 클래스로 이동
