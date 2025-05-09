@@ -1,8 +1,12 @@
 package com.study.week6.example.service;
 
 import com.study.week6.example.model.Post;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+
+import java.util.List;
 
 @Service
 public class RestClientService {
@@ -11,6 +15,14 @@ public class RestClientService {
 
     public RestClientService(org.springframework.web.client.RestClient restClient) {
         this.restClient = restClient;
+    }
+
+    public ResponseEntity<List<Post>> getAllPosts() {
+        return restClient.get()
+                .uri("/posts")
+                .retrieve()
+                .toEntity(new ParameterizedTypeReference<List<Post>>() {
+                });
     }
 
     public Post getPost(int id) {

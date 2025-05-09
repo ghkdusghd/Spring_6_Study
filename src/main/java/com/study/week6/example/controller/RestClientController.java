@@ -2,16 +2,22 @@ package com.study.week6.example.controller;
 
 import com.study.week6.example.model.Post;
 import com.study.week6.example.service.RestClientService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/sample")
+@RequestMapping("/rest-client")
 public class RestClientController {
 
     private final RestClientService restClientService;
 
     public RestClientController(RestClientService restClientService) {
         this.restClientService = restClientService;
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<?> getAllPosts() {
+        return restClientService.getAllPosts();
     }
 
     @GetMapping("/posts/{id}")
